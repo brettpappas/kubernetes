@@ -70,7 +70,7 @@ then
 
   # Generate Cluster join command
   echo "[TASK 12] Generate and save cluster join command to /joincluster.sh"
-  joinCommand=$(kubeadm token create --print-join-command) 
+  joinCommand=$(kubeadm token create --print-join-command)
   echo "$joinCommand --ignore-preflight-errors=Swap,FileContent--proc-sys-net-bridge-bridge-nf-call-iptables,SystemVerification" > /joincluster.sh
 
 fi
@@ -84,7 +84,7 @@ then
 
   # Join worker nodes to the Kubernetes cluster
   echo "[TASK 9] Join node to Kubernetes Cluster"
-  sshpass -p "kubeadmin" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no kmaster.lxd:/joincluster.sh /joincluster.sh 2>/tmp/joincluster.log
+  sshpass -p "kubeadmin" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.lxd:/joincluster.sh /joincluster.sh 2>/tmp/joincluster.log
   bash /joincluster.sh >> /tmp/joincluster.log 2>&1
 
 fi

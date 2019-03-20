@@ -6,18 +6,18 @@ This documentation guides you in setting up a cluster with one master node and o
 ## Assumptions
 |Role|FQDN|IP|OS|RAM|CPU|
 |----|----|----|----|----|----|
-|Master|kmaster.example.com|172.42.42.100|CentOS 7|2G|2|
-|Worker|kworker.example.com|172.42.42.101|CentOS 7|1G|1|
+|Master|master.example.com|172.42.42.100|CentOS 7|2G|2|
+|Worker|worker.example.com|172.42.42.101|CentOS 7|1G|1|
 
-## On both Kmaster and Kworker
+## On both master and worker
 Perform all the commands as root user unless otherwise specified
 ### Pre-requisites
 ##### Update /etc/hosts
 So that we can talk to each of the nodes in the cluster
 ```
 cat >>/etc/hosts<<EOF
-172.42.42.100 kmaster.example.com kmaster
-172.42.42.101 kworker.example.com kworker
+172.42.42.100 master.example.com master
+172.42.42.101 worker.example.com worker
 EOF
 ```
 ##### Install, enable and start docker service
@@ -77,7 +77,7 @@ yum install -y kubeadm kubelet kubectl
 systemctl enable kubelet
 systemctl start kubelet
 ```
-## On kmaster
+## On master
 ##### Initialize Kubernetes Cluster
 ```
 kubeadm init --apiserver-advertise-address=172.42.42.100 --pod-network-cidr=10.244.0.0/16
@@ -114,7 +114,7 @@ kubectl apply -f https://raw.githubusercontent.com/justmeandopensource/kubernete
 ```
 kubeadm token create --print-join-command
 ```
-## On Kworker
+## On worker
 ##### Join the cluster
 Use the output from __kubeadm token create__ command in previous step from the master server and run here.
 
